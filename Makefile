@@ -96,7 +96,7 @@ src/Java.Runtime.Environment/Java.Runtime.Environment.dll.config: src/Java.Runti
 	sed -e 's#@JI_JVM_PATH@#$(JI_JVM_PATH)#g' -e 's#@OS_NAME@#$(DLLMAP_OS_NAME)#g' -e $(JAVA_RUNTIME_ENVIRONMENT_DLLMAP_OVERRIDE_CMD) < $< > $@
 
 fxcop: lib/gendarme-2.10/gendarme.exe bin/GendarmeDebug/netstandard2.0/Java.Interop.dll
-	cp src/Java.Interop/obj/Gendarme/netstandard2.0/Java.Interop.dll.mdb bin/GendarmeDebug/netstandard2.0
+	cp src/Java.Interop/obj/Gendarme/netstandard2.0/Java.Interop.pdb bin/GendarmeDebug/netstandard2.0
 	$(RUNTIME) $< --html gendarme.html $(if @(GENDARME_XML),--xml gendarme.xml) --ignore gendarme-ignore.txt bin/GendarmeDebug/netstandard2.0/Java.Interop.dll
 
 lib/gendarme-2.10/gendarme.exe:
@@ -135,7 +135,7 @@ bin/$(CONFIGURATION)/Java.Interop.dll: $(wildcard src/Java.Interop/*/*.cs) src/J
 	$(MSBUILD) $(if $(V),/v:diag,) /p:Configuration=$(CONFIGURATION) $(if $(SNK),"/p:AssemblyOriginatorKeyFile=$(SNK)",)
 
 bin/GendarmeDebug/netstandard2.0/Java.Interop.dll: $(wildcard src/Java.Interop/*/*.cs) src/Java.Interop/Java.Interop.csproj
-	$(MSBUILD) $(if $(V),/v:diag,) /p:Configuration="Gendarme" $(if $(SNK),"/p:AssemblyOriginatorKeyFile=$(SNK)",) /p:CscToolExe=`which mcs` src/Java.Interop/Java.Interop.csproj
+	$(MSBUILD) $(if $(V),/v:diag,) /p:Configuration="Gendarme" $(if $(SNK),"/p:AssemblyOriginatorKeyFile=$(SNK)",) src/Java.Interop/Java.Interop.csproj
 
 CSHARP_REFS = \
 	bin/$(CONFIGURATION)/Java.Interop.dll               \
